@@ -25,7 +25,7 @@ let invoices =
 }
 
 function statement(invoices, plays) {
-    let thisAmount = 0;
+    let totalAmount = 0;
     let volumeCredits = 0;
     let result = `Statement for ${invoices.customer}\n`;
     const format = new Intl.NumberFormat('en-US', {
@@ -35,6 +35,7 @@ function statement(invoices, plays) {
     }).format;
     for (let perf of invoices.performances) {
       const play = plays[perf.playID];
+      
       thisAmount = amountFor(play, perf);
       // add volume credits
       volumeCredits += Math.max(perf.audience - 30, 0);
@@ -44,9 +45,9 @@ function statement(invoices, plays) {
       result += ` ${play.name}: ${format(thisAmount / 100)} (${
         perf.audience
       } seats)\n`;
-      thisAmount += thisAmount;
+      totalAmount += thisAmount;
     }
-    result += `Amount owed is ${format(thisAmount / 100)}\n`;
+    result += `Amount owed is ${format(totalAmount / 100)}\n`;
     result += `You earned ${volumeCredits} credits\n`;
     return result;
   }
