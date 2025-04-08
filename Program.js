@@ -35,8 +35,7 @@ function statement(invoices, plays) {
     }).format;
     for (let perf of invoices.performances) {
       const play = plays[perf.playID];
-      let thisAmount = 0;
-      thisAmount = amountFor(play, thisAmount, perf);
+      thisAmount = amountFor(play, perf);
       // add volume credits
       volumeCredits += Math.max(perf.audience - 30, 0);
       // add extra credit for every ten comedy attendees
@@ -54,7 +53,8 @@ function statement(invoices, plays) {
 
   console.log(statement(invoices, plays))
 
-function amountFor(play, thisAmount, perf) {
+function amountFor(play, perf) {
+  let thisAmount = 0;
   switch (play.type) {
     case 'tragedy':
       thisAmount = 40000;
